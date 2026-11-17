@@ -32,6 +32,10 @@ window.CONFIG = {
   combo_auto_pop: { value: 1, min: 0, max: 3, step: 0.5 },   // 콤보 숫자 × 이 값만큼 주변 남는 큐브가 자동으로 터짐
   combo_auto_max: { value: 10, min: 0, max: 30, step: 1 },   // 한 번에 자동으로 터지는 최대 개수
 
+  // 탭과 드래그 가르기
+  tap_slop: { value: 16, min: 4, max: 40, step: 1 },          // 누른 자리에서 이만큼(픽셀) 벗어나야 돌리기로 본다. 마우스는 절반
+  tap_time: { value: 0.7, min: 0.2, max: 2, step: 0.1 },      // 이 시간(초) 안에 떼면 탭
+
 
   // 화면·소리
   answer_split: { value: 0.34, min: 0.2, max: 0.5, step: 0.01 }, // 위 정답 영역이 차지하는 비율

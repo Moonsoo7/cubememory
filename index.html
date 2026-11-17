@@ -949,12 +949,14 @@ glc.addEventListener('pointermove',function(e){
     if(pinch&&pts.size>=2){var ps=pinchState();zoom=pinch.z*ps.d/pinch.d;clampView();panBy(ps.mx-pinch.mx,ps.my-pinch.my);pinch.mx=ps.mx;pinch.my=ps.my;return}}
   if(!ptr||e.pointerId!==ptr.id)return;var dx=e.clientX-ptr.x,dy=e.clientY-ptr.y;ptr.x=e.clientX;ptr.y=e.clientY;
   ptr.moved+=Math.abs(dx)+Math.abs(dy);
-  if(mode!=='play'||ptr.moved<6)return;
+  // 누른 자리에서 tap_slop 픽셀 넘게 벗어나기 전까지는 돌리지 않는다. 손가락이 살짝 떨리는 정도는 탭으로 본다
+  if(!ptr.drag&&Math.sqrt((e.clientX-ptr.sx)*(e.clientX-ptr.sx)+(e.clientY-ptr.sy)*(e.clientY-ptr.sy))>tune.tap_slop*(e.pointerType==='mouse'?.5:1))ptr.drag=true;
+  if(mode!=='play'||!ptr.drag)return;
   if(ptr.pan){panBy(dx,dy);return}
   qT.setFromAxisAngle(ax.set(0,1,0),dx*.011);rotQ.premultiply(qT);qT.setFromAxisAngle(ax.set(1,0,0),dy*.011);rotQ.premultiply(qT)}); // 기억하는 동안에도 돌려 볼 수 있다
 function up(e){pts.delete(e.pointerId);if(pinch){if(pts.size<2){pinch=null;ptr=null}return}
   if(!ptr||e.pointerId!==ptr.id)return;var p=ptr;ptr=null;
-  if(e.type==='pointerup'&&p.moved<9&&performance.now()-p.t<500)tap(p.sx,p.sy)}
+  if(e.type==='pointerup'&&!p.drag&&performance.now()-p.t<tune.tap_time*1000)tap(p.sx,p.sy)}
 glc.addEventListener('pointerup',up);glc.addEventListener('pointercancel',up);
 glc.addEventListener('wheel',function(e){if(mode==='play'){e.preventDefault();zoom*=e.deltaY>0?.9:1.11;clampView();return}
 },{passive:false});
