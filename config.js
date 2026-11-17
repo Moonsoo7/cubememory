@@ -33,7 +33,7 @@ window.CONFIG = {
   combo_auto_max: { value: 10, min: 0, max: 30, step: 1 },   // 한 번에 자동으로 터지는 최대 개수
 
   // 탭과 드래그 가르기
-  tap_slop: { value: 16, min: 4, max: 40, step: 1 },          // 누른 자리에서 이만큼(픽셀) 벗어나야 돌리기로 본다. 마우스는 절반
+  tap_slop: { value: 32, min: 4, max: 64, step: 1 },          // 누른 자리에서 이만큼(픽셀) 벗어나야 돌리기로 본다. 마우스는 절반
   tap_time: { value: 0.7, min: 0.2, max: 2, step: 0.1 },      // 이 시간(초) 안에 떼면 탭
 
 
